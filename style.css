@@ -11,38 +11,55 @@ body {
     min-height: 100vh;
 }
 
-/* 2. Home Feed (index.html) */
+/* 2. Home Feed (index.html) - UPDATED FOR FULL SCREEN */
 #feed { 
     width: 100%; 
-    max-width: 500px; 
-    padding: 20px; 
+    max-width: 100%; /* Mobile par poori screen */
+    padding: 0;      /* Padding 0 taaki image edges tak jaye */
     box-sizing: border-box; 
+}
+
+/* Laptop/Desktop ke liye screen limit */
+@media (min-width: 600px) {
+    #feed {
+        max-width: 500px;
+        padding: 20px;
+    }
 }
 
 .post { 
     background: #1a1a1a; 
-    border: 1px solid #333; 
-    border-radius: 16px; 
-    margin-bottom: 40px; 
-    padding: 20px; 
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
+    border: none;        /* Mobile par border hatane ke liye 'none' */
+    border-radius: 0;    /* Mobile par sharp corners */
+    margin-bottom: 20px; 
+    padding: 0 0 20px 0; /* Padding adjust ki taaki image touch kare */
+    box-shadow: none;    /* Mobile par shadow hatayi */
 }
 
-.post:hover {
-    transform: translateY(-5px);
-    border: 1px solid #ff0000;
+/* Laptop/Desktop ke liye card style wapas laane ke liye */
+@media (min-width: 600px) {
+    .post {
+        border: 1px solid #333;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
 }
 
 .post img { 
     width: 100%; 
-    border-radius: 12px; 
+    border-radius: 0;    /* Mobile par image corners sharp */
     display: block; 
     margin-bottom: 15px; 
 }
 
+/* Laptop ke liye image corners round karne ke liye */
+@media (min-width: 600px) {
+    .post img { border-radius: 12px; }
+}
+
 .post p { 
-    margin: 0; 
+    margin: 0 15px;      /* Text ko thoda side se space dene ke liye */
     font-size: 17px; 
     font-weight: 500;
     color: #fff;
