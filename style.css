@@ -4,66 +4,51 @@ body {
     color: #fff; 
     margin: 0; 
     padding: 0; 
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    min-height: 100vh;
+    font-family: sans-serif; 
 }
 
-/* 2. Home Feed (index.html) - UPDATED FOR FULL SCREEN */
+/* 2. Full Width Feed */
 #feed { 
     width: 100%; 
-    max-width: 100%; /* Mobile par poori screen */
-    padding: 0;      /* Padding 0 taaki image edges tak jaye */
-    box-sizing: border-box; 
+    padding: 0; /* Padding hatayi taaki edge tak aaye */
 }
 
-/* Laptop/Desktop ke liye screen limit */
-@media (min-width: 600px) {
-    #feed {
-        max-width: 500px;
-        padding: 20px;
-    }
-}
-
+/* 3. Post Card styling */
 .post { 
     background: #1a1a1a; 
-    border: none;        /* Mobile par border hatane ke liye 'none' */
-    border-radius: 0;    /* Mobile par sharp corners */
-    margin-bottom: 20px; 
-    padding: 0 0 20px 0; /* Padding adjust ki taaki image touch kare */
-    box-shadow: none;    /* Mobile par shadow hatayi */
-}
-
-/* Laptop/Desktop ke liye card style wapas laane ke liye */
-@media (min-width: 600px) {
-    .post {
-        border: 1px solid #333;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    }
+    margin-bottom: 10px; /* Neeche ki jagah kam ki */
+    padding-bottom: 15px;
 }
 
 .post img { 
     width: 100%; 
-    border-radius: 0;    /* Mobile par image corners sharp */
     display: block; 
-    margin-bottom: 15px; 
-}
-
-/* Laptop ke liye image corners round karne ke liye */
-@media (min-width: 600px) {
-    .post img { border-radius: 12px; }
+    margin-bottom: 10px;
 }
 
 .post p { 
-    margin: 0 15px;      /* Text ko thoda side se space dene ke liye */
-    font-size: 17px; 
-    font-weight: 500;
-    color: #fff;
-    word-wrap: break-word;
+    margin: 0 15px; /* Text ke liye side se thodi jagah */
+    font-size: 16px;
+}
+
+/* 4. Desktop par layout wapas set karne ke liye */
+@media (min-width: 600px) {
+    #feed { max-width: 500px; margin: 0 auto; padding: 20px; }
+    .post { border-radius: 16px; margin-bottom: 30px; }
+    .post img { border-radius: 12px; }
+}
+
+/* 5. Download Button */
+.fixed-btn { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    background: #ff0000; 
+    padding: 12px 20px; 
+    border-radius: 50px; 
+    color: #fff; 
+    text-decoration: none; 
+    font-weight: bold;
 }
 
 /* 3. Admin Panel (admin.html) */
