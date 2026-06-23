@@ -1,81 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Home</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <style>
-        body { background-color: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        
-        /* Buttons container */
-        .main-menu { display: flex; gap: 20px; }
-        .btn { background: #ff0000; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; font-size: 16px; }
-
-        /* Hidden Form Section */
-        #commentForm { display: none; margin-top: 30px; width: 90%; max-width: 400px; background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid #ff0000; }
-        textarea { width: 100%; height: 80px; background: #000; color: #fff; border: 1px solid #ff0000; margin-bottom: 10px; }
+        body { background: #000; color: #fff; margin: 0; padding: 20px; font-family: sans-serif; }
+        .post { background: #1a1a1a; border: 1px solid #ff0000; border-radius: 10px; margin-bottom: 20px; padding: 15px; max-width: 500px; margin: 20px auto; }
+        img { width: 100%; border-radius: 5px; }
+        .fixed-btn { position: fixed; bottom: 20px; right: 20px; background: #ff0000; padding: 15px 25px; border-radius: 50px; text-decoration: none; color: #fff; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="feed"></div>
+    <a href="YOUR_APP_LINK" class="fixed-btn">Download App</a>
 
-    <div class="main-menu">
-        <a href="home.html" class="btn">HOME</a>
-        <button class="btn" onclick="toggleForm()">COMMENT</button>
-        <a href="YOUR_APP_LINK" class="btn">Download App</a>
-    </div>
-
-    <div id="commentForm">
-        <textarea id="comment" placeholder="Kuch likhein..."></textarea>
-        <input type="file" id="imageFile" accept="image/*">
-        <button class="btn" style="width: 100%; margin-top: 10px;" onclick="submitData()">SUBMIT</button>
-    </div>
     <script>
-        // --- 1. CONFIGURATION ---
-        const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_ID",
-            appId: "YOUR_APP_ID"
-        };
-        const IMGBB_API_KEY = "YOUR_IMGBB_API_KEY_HERE";
-
+        const firebaseConfig = { /* APNA FIREBASE CONFIG YAHAN DALEIN */ };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --- 2. UPLOAD LOGIC ---
-        async function submitData() {
-            const comment = document.getElementById('comment').value;
-            const file = document.getElementById('imageFile').files[0];
-
-            if (!comment || !file) {
-                alert("Please write a comment and select an image!");
-                return;
-            }
-
-            // Uploading to ImgBB
-            const formData = new FormData();
-            formData.append('image', file);
-            
-            try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-                const imageUrl = result.data.url;
-
-                // Saving to Firebase
-                await db.collection("posts").add({
-                    text: comment,
-                    image: imageUrl,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert("Successfully Posted!");
-                location.reload();
-            } catch (error) {
-                alert("Error: " + error.message);
-            }
-        }
+        db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+            const feed = document.getElementById('feed');
+            feed.innerHTML = "";
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                feed.innerHTML += `<div class="post">
+                    <img src="${p.image}">
+                    <p>${p.caption}</p>
+                </div>`;
+            });
+        });
     </script>
 </body>
 </html>
