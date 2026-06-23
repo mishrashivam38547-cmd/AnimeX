@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { background: #000; color: #fff; text-align: center; padding: 50px; font-family: sans-serif; }
+        .card { background: #1a1a1a; padding: 30px; border: 1px solid #ff0000; border-radius: 15px; max-width: 400px; margin: auto; }
+        textarea, input { width: 90%; margin: 10px 0; padding: 10px; }
+        button { background: #ff0000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Admin Panel</h2>
+        <textarea id="caption" placeholder="Caption likhein..."></textarea><br>
+        <input type="file" id="imageFile"><br>
+        <button onclick="uploadData()">UPLOAD POST</button>
+    </div>
+
+    <script>
+        const firebaseConfig = { /* APNA FIREBASE CONFIG YAHAN DALEIN */ };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function uploadData() {
+            const caption = document.getElementById('caption').value;
+            const file = document.getElementById('imageFile').files[0];
+            const IMGBB_API = "YOUR_IMGBB_API_KEY";
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API}`, {method: 'POST', body: formData});
+            const data = await res.json();
+
+            db.collection("posts").add({
+                caption: caption,
+                image: data.data.url,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => alert("Post Uploaded!"));
+        }
+    </script>
+</body>
+</html>
