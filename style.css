@@ -1,55 +1,66 @@
-/* 1. Reset Global margin/padding */
+/* 1. Global Reset - Modern Dark Theme */
 body, html { 
-    margin: 0; 
-    padding: 0; 
-    background-color: #000; 
-    color: #fff; 
+    margin: 0; padding: 0; 
+    background-color: #050505; /* Pure black ke bajaye deep gray-black */
+    color: #e0e0e0; 
+    font-family: 'Inter', -apple-system, sans-serif; 
     width: 100%;
 }
 
-/* 2. Full Width Feed - No Space */
-#feed { 
-    width: 100%; 
-    padding: 0; 
-    margin: 0; 
-}
+/* 2. Feed Container */
+#feed { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-/* 3. Post Card styling - Edge to Edge */
+/* 3. Modern Post Card */
 .post { 
-    background: #1a1a1a; 
-    margin: 0 0 10px 0; /* Neeche space rahega, baayein-daayein 0 */
+    width: 100%; 
+    background: #0f0f0f; /* Card ka color background se thoda lighter */
+    margin-bottom: 20px; 
     padding: 0; 
+    border-bottom: 1px solid #222; /* Subtle divider */
 }
 
 .post img { 
     width: 100%; 
     display: block; 
-    margin: 0;
-    padding: 0;
+    border-radius: 0;
 }
 
 .post p { 
-    margin: 10px; /* Caption ke liye thodi space */
-    font-size: 16px;
-    color: #fff;
+    padding: 15px; 
+    margin: 0; 
+    font-size: 15px; 
+    font-weight: 400;
+    color: #cccccc; /* Caption soft color */
+    line-height: 1.6;
 }
 
-/* 4. Desktop/Laptop ke liye wapas wahi look */
-@media (min-width: 600px) {
-    #feed { max-width: 500px; margin: 0 auto; padding: 20px; }
-    .post { border-radius: 16px; border: 1px solid #333; margin-bottom: 30px; padding: 20px; }
-    .post img { border-radius: 12px; }
-}
-
-/* 5. Fixed Download Button */
+/* 4. Professional Download Button */
 .fixed-btn { 
     position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    background: #ff0000; 
-    padding: 12px 20px; 
-    border-radius: 50px; 
-    color: #fff; 
+    bottom: 25px; 
+    right: 25px; 
+    background: #ff3e3e; /* Modern Vibrant Red */
+    padding: 14px 28px; 
+    border-radius: 12px; 
+    color: #ffffff; 
     text-decoration: none; 
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 10px 20px rgba(255, 62, 62, 0.3);
+    transition: transform 0.2s;
+}
+
+.fixed-btn:hover { transform: scale(1.05); }
+
+/* 5. Desktop (Laptop) View - Clean Centered */
+@media (min-width: 600px) {
+    #feed { max-width: 500px; margin: auto; padding-top: 30px; }
+    .post { 
+        border-radius: 20px; 
+        border: 1px solid #222; 
+        background: #0a0a0a;
+        margin-bottom: 40px; 
+        overflow: hidden;
+    }
+    .post img { border-radius: 20px 20px 0 0; }
 }
