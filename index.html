@@ -31,18 +31,23 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-
-        db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-            const feed = document.getElementById('feed');
-            feed.innerHTML = "";
-            snapshot.forEach(doc => {
-                const p = doc.data();
-                feed.innerHTML += `<div class="post">
-                    <img src="${p.image}">
+db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    const feed = document.getElementById('feed');
+    feed.innerHTML = ""; // Purana content saaf karein
+    
+    snapshot.forEach(doc => {
+        const p = doc.data();
+        // Yahan 'post' ki jagah 'post-card' class ka use kiya hai
+        feed.innerHTML += `
+            <div class="post-card">
+                <img src="${p.image}" class="post-image">
+                <div class="post-content">
                     <p>${p.caption}</p>
-                </div>`;
-            });
-        });
+                </div>
+            </div>`;
+    });
+});
+        
     </script>
     <link rel="stylesheet" href="style.css">
 </body>
