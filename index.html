@@ -1,44 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime-X-Six</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    
     <style>
-        body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .card { background-color: #1a1a1a; padding: 30px; border-radius: 15px; border: 1px solid #ff0000; width: 90%; max-width: 400px; margin-top: 50px; text-align: center; }
+        body { background-color: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
         
-        textarea { width: 100%; height: 100px; background: #000; color: #fff; border: 1px solid #ff0000; border-radius: 5px; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
-        
-        /* Custom File Input */
-        .file-upload-wrapper { margin: 10px 0; }
-        #imageFile { color: #ff0000; }
+        /* Buttons container */
+        .main-menu { display: flex; gap: 20px; }
+        .btn { background: #ff0000; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; font-size: 16px; }
 
-        button#postBtn { background: #ff0000; color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 5px; width: 100%; text-transform: uppercase; }
-        
-        /* Floating Buttons */
-        .btn-bottom { position: fixed; bottom: 20px; background-color: #ff0000; color: white; padding: 12px 20px; border-radius: 25px; font-weight: bold; text-decoration: none; border: 2px solid #fff; }
-        .left { left: 20px; }
-        .right { right: 20px; }
+        /* Hidden Form Section */
+        #commentForm { display: none; margin-top: 30px; width: 90%; max-width: 400px; background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid #ff0000; }
+        textarea { width: 100%; height: 80px; background: #000; color: #fff; border: 1px solid #ff0000; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>Post Your Content</h2>
-        <textarea id="comment" placeholder="Kuch likhein..."></textarea>
-        <div class="file-upload-wrapper">
-            <input type="file" id="imageFile" accept="image/*">
-        </div>
-        <button id="postBtn" onclick="submitData()">COMMENT</button>
+    <div class="main-menu">
+        <a href="home.html" class="btn">HOME</a>
+        <button class="btn" onclick="toggleForm()">COMMENT</button>
+        <a href="YOUR_APP_LINK" class="btn">Download App</a>
     </div>
 
-    <a href="home.html" class="btn-bottom left">HOME</a>
-    <a href="YOUR_APP_DOWNLOAD_LINK_HERE" class="btn-bottom right">Download App</a>
-
+    <div id="commentForm">
+        <textarea id="comment" placeholder="Kuch likhein..."></textarea>
+        <input type="file" id="imageFile" accept="image/*">
+        <button class="btn" style="width: 100%; margin-top: 10px;" onclick="submitData()">SUBMIT</button>
+    </div>
     <script>
         // --- 1. CONFIGURATION ---
         const firebaseConfig = {
