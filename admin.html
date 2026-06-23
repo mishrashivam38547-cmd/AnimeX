@@ -32,24 +32,48 @@
         const db = firebase.firestore();
 
         async function uploadData() {
-            const caption = document.getElementById('caption').value;
-            const file = document.getElementById('imageFile').files[0];
-            const IMGBB_API = "0de43554e74e8ef8afc0f49cccf0d1f";
+    const caption = document.getElementById('caption').value;
+    const fileInput = document.getElementById('imageFile');
+    
+    if (fileInput.files.length === 0) {
+        alert("Pehle photo select karein!");
+        return;
+    }
 
-            if(!file) { alert("Photo select karein!"); return; }
+    const file = fileInput.files[0];
+    const IMGBB_API = "0de43554e74e8ef8afc0f49cccf0d1f";
 
-            const formData = new FormData();
-            formData.append('image', file);
+    try {
+        // 1. ImgBB Upload
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API}`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
 
-            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API}`, {method: 'POST', body: formData});
-            const data = await res.json();
-
-            db.collection("posts").add({
-                caption: caption,
-                image: data.data.url,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => alert("Post Uploaded!"));
+        if (!data.success) {
+            alert("ImgBB Error: " + data.error.message);
+            return;
         }
+
+        // 2. Firebase Upload
+        await db.collection("posts").add({
+            caption: caption,
+            image: data.data.url,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert("Successfully Uploaded!");
+        location.reload();
+
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+        }
+        
     </script>
 </body>
 </html>
